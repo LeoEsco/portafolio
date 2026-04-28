@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Leonardo Escobedo</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .contact-section {
+      min-height: 100vh;
+      padding: calc(var(--nav-height) + 100px) 0 140px;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .contact-inner {
+      width: 100%;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: start;
+    }
+
+    .contact-left h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      margin-bottom: 32px;
+    }
+
+    .contact-left h2 em {
+      font-style: italic;
+      color: var(--sand);
+    }
+
+    .contact-left p {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      line-height: 1.85;
+      margin-bottom: 48px;
+      max-width: 420px;
+    }
+
+    /* link cards */
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .contact-link-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 36px;
+      background: var(--surface);
+      border: 1px solid rgba(200, 169, 110, 0.08);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: all var(--transition);
+      cursor: none;
+    }
+
+    .contact-link-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(200,169,110,0.05) 0%, transparent 100%);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--transition);
+    }
+
+    .contact-link-card:hover {
+      border-color: rgba(200, 169, 110, 0.3);
+    }
+
+    .contact-link-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .contact-link-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-link-icon {
+      width: 36px;
+      height: 36px;
+      color: var(--sand-dim);
+      transition: color var(--transition);
+    }
+
+    .contact-link-card:hover .contact-link-icon {
+      color: var(--sand);
+    }
+
+    .contact-link-platform {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+
+    .contact-link-value {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      transition: color var(--transition);
+    }
+
+    .contact-link-card:hover .contact-link-value {
+      color: var(--sand-light);
+    }
+
+    .contact-link-arrow {
+      width: 20px;
+      height: 20px;
+      color: var(--text-dim);
+      transition: all var(--transition);
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-link-card:hover .contact-link-arrow {
+      color: var(--sand);
+      transform: translate(4px, -4px);
+    }
+
+    /* right side — decorative data panel */
+    .contact-right {
+      position: relative;
+    }
+
+    .signal-panel {
+      background: var(--surface);
+      border: 1px solid rgba(200, 169, 110, 0.1);
+      padding: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .signal-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top right, rgba(200,169,110,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .signal-header {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--sand-dim);
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .signal-header::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--sand);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(200,169,110,0.4); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(200,169,110,0); }
+    }
+
+    .signal-stat {
+      margin-bottom: 36px;
+    }
+
+    .signal-stat:last-child { margin-bottom: 0; }
+
+    .signal-stat-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+    }
+
+    .signal-stat-value {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .signal-stat-value em {
+      font-style: italic;
+      color: var(--sand);
+    }
+
+    .signal-bar {
+      margin-top: 10px;
+      height: 1px;
+      background: rgba(200,169,110,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .signal-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--sand-dim), var(--sand));
+      animation: scan 3s ease-in-out infinite;
+    }
+
+    @keyframes scan {
+      0%   { width: 0%; margin-left: 0; }
+      50%  { width: 70%; }
+      100% { width: 0%; margin-left: 100%; }
+    }
+
+    /* availability badge */
+    .availability {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(200, 169, 110, 0.08);
+    }
+
+    .avail-dot {
+      width: 8px;
+      height: 8px;
+      background: #6fcf8e;
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .avail-text {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+      .contact-section { padding-top: calc(var(--nav-height) + 60px); align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor cursor-dot" style="position:fixed;z-index:9999;pointer-events:none;"></div>
+  <div class="cursor cursor-ring" style="position:fixed;z-index:9998;pointer-events:none;"></div>
+  <canvas id="sand-canvas"></canvas>
+
+  <nav>
+    <a href="index.html" class="nav-logo">LE</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="contact-section page">
+    <div class="grid-bg"></div>
+    <div class="container contact-inner">
+
+      <div class="section-label reveal">005 — Contact</div>
+
+      <div class="contact-grid">
+
+        <div class="contact-left">
+          <h2 class="reveal">
+            Let's build<br>
+            something<br>
+            <em>worth analyzing.</em>
+          </h2>
+          <p class="reveal reveal-delay-1">
+            Open to new opportunities, freelance data work,
+            and conversations about analytics, strategy, or both.
+            Reach out through any of the channels below.
+          </p>
+
+          <div class="contact-links">
+
+            <!-- Email -->
+            <a href="mailto:leonardo@example.com" class="contact-link-card reveal reveal-delay-1">
+              <div class="contact-link-left">
+                <svg class="contact-link-icon" viewBox="0 0 36 36" fill="none">
+                  <rect x="3" y="8" width="30" height="20" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/>
+                  <polyline points="3,10 18,20 33,10" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/>
+                </svg>
+                <div>
+                  <div class="contact-link-platform">Email</div>
+                  <div class="contact-link-value">leonardo@example.com</div>
+                </div>
+              </div>
+              <svg class="contact-link-arrow" viewBox="0 0 20 20" fill="none">
+                <path d="M5 15L15 5M15 5H8M15 5V12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              </svg>
+            </a>
+
+            <!-- LinkedIn -->
+            <a href="https://linkedin.com/in/leonardo-escobedo" target="_blank" class="contact-link-card reveal reveal-delay-2">
+              <div class="contact-link-left">
+                <svg class="contact-link-icon" viewBox="0 0 36 36" fill="none">
+                  <rect x="3" y="3" width="30" height="30" rx="4" stroke="currentColor" stroke-width="1.2" fill="none"/>
+                  <rect x="9" y="15" width="4" height="13" fill="currentColor" opacity="0.7"/>
+                  <circle cx="11" cy="11" r="2.5" fill="currentColor" opacity="0.7"/>
+                  <path d="M17 15h4v3s1-3 5-3c4 0 4 3 4 5v8h-4v-7c0-1.5-0.5-3-2-3s-3 1.5-3 3v7h-4V15z" fill="currentColor" opacity="0.7"/>
+                </svg>
+                <div>
+                  <div class="contact-link-platform">LinkedIn</div>
+                  <div class="contact-link-value">Leonardo Escobedo</div>
+                </div>
+              </div>
+              <svg class="contact-link-arrow" viewBox="0 0 20 20" fill="none">
+                <path d="M5 15L15 5M15 5H8M15 5V12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              </svg>
+            </a>
+
+            <!-- GitHub -->
+            <a href="https://github.com/leonardo-escobedo" target="_blank" class="contact-link-card reveal reveal-delay-3">
+              <div class="contact-link-left">
+                <svg class="contact-link-icon" viewBox="0 0 36 36" fill="none">
+                  <path d="M18 3C9.716 3 3 9.716 3 18c0 6.627 4.298 12.245 10.258 14.228.75.138 1.022-.326 1.022-.724v-2.53c-4.17.907-5.047-2.01-5.047-2.01-.681-1.73-1.663-2.19-1.663-2.19-1.36-.928.103-.91.103-.91 1.503.106 2.294 1.543 2.294 1.543 1.337 2.29 3.508 1.628 4.362 1.245.135-.968.523-1.628.952-2.003-3.329-.379-6.829-1.665-6.829-7.41 0-1.637.586-2.977 1.543-4.026-.155-.379-.669-1.906.147-3.975 0 0 1.258-.403 4.121 1.537a14.34 14.34 0 0 1 3.752-.505c1.273.006 2.555.172 3.752.505 2.862-1.94 4.118-1.537 4.118-1.537.818 2.07.304 3.596.149 3.975.961 1.049 1.54 2.389 1.54 4.026 0 5.76-3.506 7.026-6.845 7.398.539.464 1.018 1.38 1.018 2.782v4.123c0 .402.268.87 1.03.724C28.706 30.241 33 24.624 33 18 33 9.716 26.284 3 18 3z" fill="currentColor" opacity="0.7"/>
+                </svg>
+                <div>
+                  <div class="contact-link-platform">GitHub</div>
+                  <div class="contact-link-value">github.com/leonardo-escobedo</div>
+                </div>
+              </div>
+              <svg class="contact-link-arrow" viewBox="0 0 20 20" fill="none">
+                <path d="M5 15L15 5M15 5H8M15 5V12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              </svg>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- right: signal panel -->
+        <div class="contact-right reveal reveal-delay-2">
+          <div class="signal-panel">
+            <div class="signal-header">Signal active</div>
+
+            <div class="signal-stat">
+              <div class="signal-stat-label">Location</div>
+              <div class="signal-stat-value">Monterrey,<br><em>México</em></div>
+              <div class="signal-bar"><div class="signal-bar-fill"></div></div>
+            </div>
+
+            <div class="signal-stat">
+              <div class="signal-stat-label">Focus Area</div>
+              <div class="signal-stat-value"><em>Analytics</em> &<br>BI Engineering</div>
+              <div class="signal-bar" style="animation-delay:0.5s"><div class="signal-bar-fill" style="animation-delay:0.5s"></div></div>
+            </div>
+
+            <div class="signal-stat">
+              <div class="signal-stat-label">Response Time</div>
+              <div class="signal-stat-value">Within <em>24h</em></div>
+              <div class="signal-bar" style="animation-delay:1s"><div class="signal-bar-fill" style="animation-delay:1s"></div></div>
+            </div>
+
+            <div class="availability">
+              <div class="avail-dot"></div>
+              <span class="avail-text">Open to new opportunities</span>
+            </div>
+          </div>
+
+          <!-- coordinates decoration -->
+          <div style="margin-top:16px; display:flex; justify-content:flex-end;">
+            <span style="font-family:var(--font-mono); font-size:9px; letter-spacing:0.15em; color:var(--text-dim);">
+              25.6866° N, 100.3161° W — MTY
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Leonardo Escobedo</p>
+    <p>Data Analyst — Monterrey, MX</p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

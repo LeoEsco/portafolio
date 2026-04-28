@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skills — Leonardo Escobedo</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .skills-section {
+      min-height: 100vh;
+      padding: calc(var(--nav-height) + 100px) 0 140px;
+      position: relative;
+    }
+
+    .skills-header {
+      margin-bottom: 80px;
+    }
+
+    .skills-header h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      max-width: 600px;
+    }
+
+    .skills-header h2 em {
+      font-style: italic;
+      color: var(--sand);
+    }
+
+    /* primary skill cards */
+    .skill-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      margin-bottom: 80px;
+    }
+
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid rgba(200, 169, 110, 0.08);
+      padding: 48px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color var(--transition), background var(--transition);
+      cursor: none;
+    }
+
+    .skill-card:hover {
+      border-color: rgba(200, 169, 110, 0.3);
+      background: var(--surface2);
+    }
+
+    .skill-card:hover .skill-bar-fill {
+      filter: brightness(1.2);
+    }
+
+    /* diagonal accent */
+    .skill-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 60px;
+      height: 60px;
+      border-bottom-left-radius: 2px;
+      background: linear-gradient(225deg, rgba(200,169,110,0.1) 0%, transparent 60%);
+      transition: opacity var(--transition);
+    }
+
+    .skill-card:hover::after {
+      opacity: 2;
+    }
+
+    .skill-header-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .skill-icon {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+    }
+
+    .skill-name {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      color: var(--text-primary);
+    }
+
+    .skill-tag {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--sand-dim);
+      text-transform: uppercase;
+      border: 1px solid rgba(200, 169, 110, 0.2);
+      padding: 4px 10px;
+    }
+
+    .skill-desc {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 32px;
+    }
+
+    /* proficiency bar */
+    .skill-bar {
+      height: 2px;
+      background: rgba(200, 169, 110, 0.1);
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .skill-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--sand-dim), var(--sand));
+      transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .skill-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+    }
+
+    .skill-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .chip {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sand-dim);
+      border: 1px solid rgba(200, 169, 110, 0.15);
+      padding: 5px 12px;
+      transition: all var(--transition);
+    }
+
+    .skill-card:hover .chip {
+      border-color: rgba(200, 169, 110, 0.3);
+      color: var(--sand);
+    }
+
+    /* secondary skills strip */
+    .secondary-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 32px;
+    }
+
+    .secondary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+
+    .secondary-card {
+      background: var(--surface);
+      border: 1px solid rgba(200, 169, 110, 0.06);
+      padding: 28px 24px;
+      text-align: center;
+      transition: all var(--transition);
+      cursor: none;
+    }
+
+    .secondary-card:hover {
+      background: var(--surface2);
+      border-color: rgba(200, 169, 110, 0.2);
+    }
+
+    .secondary-card-name {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .secondary-card-desc {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    @media (max-width: 768px) {
+      .skill-cards { grid-template-columns: 1fr; }
+      .secondary-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor cursor-dot" style="position:fixed;z-index:9999;pointer-events:none;"></div>
+  <div class="cursor cursor-ring" style="position:fixed;z-index:9998;pointer-events:none;"></div>
+  <canvas id="sand-canvas"></canvas>
+
+  <nav>
+    <a href="index.html" class="nav-logo">LE</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="skills-section page">
+    <div class="grid-bg"></div>
+    <div class="container">
+
+      <div class="section-label reveal">002 — Technical Stack</div>
+
+      <div class="skills-header">
+        <h2 class="reveal">
+          Tools that turn<br>
+          raw data into<br>
+          <em>clear signal.</em>
+        </h2>
+      </div>
+
+      <div class="skill-cards">
+
+        <!-- Python -->
+        <div class="skill-card reveal">
+          <div class="skill-header-row">
+            <svg class="skill-icon" viewBox="0 0 44 44" fill="none">
+              <rect x="2" y="2" width="40" height="40" rx="4" stroke="rgba(200,169,110,0.3)" stroke-width="1"/>
+              <path d="M22 8c-4 0-7 1.5-7 4v4h7v1.5H11c-2.5 0-4.5 2-4.5 5s2 5 4.5 5h2v-3c0-2.5 2-4 4.5-4h8c2.5 0 4-1.5 4-4V12c0-2.5-3-4-7.5-4zM18.5 11a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" fill="rgba(200,169,110,0.6)"/>
+              <path d="M22 36c4 0 7-1.5 7-4v-4h-7v-1.5h11c2.5 0 4.5-2 4.5-5s-2-5-4.5-5h-2v3c0 2.5-2 4-4.5 4h-8c-2.5 0-4-1.5-4-4V20c0-2.5 3-4 7.5-4zm3.5-3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" fill="rgba(200,169,110,0.9)"/>
+            </svg>
+            <span class="skill-name">Python</span>
+            <span class="skill-tag">Primary</span>
+          </div>
+          <p class="skill-desc">
+            Core language for data engineering and analysis. I build ETL pipelines,
+            automate data processing at scale, and produce interactive visualizations
+            with Plotly and Dash.
+          </p>
+          <div class="skill-bar">
+            <div class="skill-bar-fill" data-width="88" style="width:0%"></div>
+          </div>
+          <div class="skill-bar-label"><span>Proficiency</span><span>Advanced</span></div>
+          <div class="skill-chips">
+            <span class="chip">Pandas</span>
+            <span class="chip">Plotly</span>
+            <span class="chip">Dash</span>
+            <span class="chip">NumPy</span>
+            <span class="chip">openpyxl</span>
+          </div>
+        </div>
+
+        <!-- Power BI -->
+        <div class="skill-card reveal reveal-delay-1">
+          <div class="skill-header-row">
+            <svg class="skill-icon" viewBox="0 0 44 44" fill="none">
+              <rect x="2" y="2" width="40" height="40" rx="4" stroke="rgba(200,169,110,0.3)" stroke-width="1"/>
+              <rect x="10" y="26" width="6" height="12" rx="1" fill="rgba(200,169,110,0.4)"/>
+              <rect x="19" y="18" width="6" height="20" rx="1" fill="rgba(200,169,110,0.65)"/>
+              <rect x="28" y="10" width="6" height="28" rx="1" fill="var(--sand)"/>
+              <polyline points="13,25 22,17 31,9" stroke="var(--sand-light)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              <circle cx="31" cy="9" r="2" fill="var(--sand-light)"/>
+            </svg>
+            <span class="skill-name">Power BI</span>
+            <span class="skill-tag">Primary</span>
+          </div>
+          <p class="skill-desc">
+            End-to-end dashboard development: data modeling, DAX measures, report design,
+            and delivery to business stakeholders. Focused on clarity and actionability.
+          </p>
+          <div class="skill-bar">
+            <div class="skill-bar-fill" data-width="82" style="width:0%"></div>
+          </div>
+          <div class="skill-bar-label"><span>Proficiency</span><span>Advanced</span></div>
+          <div class="skill-chips">
+            <span class="chip">DAX</span>
+            <span class="chip">Power Query</span>
+            <span class="chip">Data Modeling</span>
+            <span class="chip">Report Design</span>
+          </div>
+        </div>
+
+        <!-- SQL -->
+        <div class="skill-card reveal reveal-delay-2">
+          <div class="skill-header-row">
+            <svg class="skill-icon" viewBox="0 0 44 44" fill="none">
+              <rect x="2" y="2" width="40" height="40" rx="4" stroke="rgba(200,169,110,0.3)" stroke-width="1"/>
+              <ellipse cx="22" cy="13" rx="12" ry="5" stroke="var(--sand)" stroke-width="1" fill="rgba(200,169,110,0.08)"/>
+              <path d="M10 13v6c0 2.8 5.4 5 12 5s12-2.2 12-5v-6" stroke="var(--sand)" stroke-width="1" fill="none"/>
+              <path d="M10 19v6c0 2.8 5.4 5 12 5s12-2.2 12-5v-6" stroke="rgba(200,169,110,0.6)" stroke-width="1" fill="none"/>
+            </svg>
+            <span class="skill-name">SQL</span>
+            <span class="skill-tag">Primary</span>
+          </div>
+          <p class="skill-desc">
+            Data extraction, transformation, and aggregation from relational databases.
+            Comfortable with complex joins, window functions, and query optimization.
+          </p>
+          <div class="skill-bar">
+            <div class="skill-bar-fill" data-width="78" style="width:0%"></div>
+          </div>
+          <div class="skill-bar-label"><span>Proficiency</span><span>Proficient</span></div>
+          <div class="skill-chips">
+            <span class="chip">Joins</span>
+            <span class="chip">Aggregations</span>
+            <span class="chip">Window Fns</span>
+            <span class="chip">Subqueries</span>
+          </div>
+        </div>
+
+        <!-- Pandas -->
+        <div class="skill-card reveal reveal-delay-3">
+          <div class="skill-header-row">
+            <svg class="skill-icon" viewBox="0 0 44 44" fill="none">
+              <rect x="2" y="2" width="40" height="40" rx="4" stroke="rgba(200,169,110,0.3)" stroke-width="1"/>
+              <rect x="8"  y="12" width="8"  height="20" rx="1" stroke="var(--sand)" stroke-width="1" fill="rgba(200,169,110,0.05)"/>
+              <rect x="18" y="12" width="8"  height="20" rx="1" stroke="var(--sand)" stroke-width="1" fill="rgba(200,169,110,0.05)"/>
+              <rect x="28" y="12" width="8"  height="20" rx="1" stroke="var(--sand)" stroke-width="1" fill="rgba(200,169,110,0.05)"/>
+              <line x1="8" y1="18" x2="36" y2="18" stroke="rgba(200,169,110,0.3)" stroke-width="0.5"/>
+              <line x1="8" y1="24" x2="36" y2="24" stroke="rgba(200,169,110,0.3)" stroke-width="0.5"/>
+              <rect x="9" y="13" width="6" height="4" rx="0.5" fill="rgba(200,169,110,0.4)"/>
+              <rect x="19" y="19" width="6" height="4" rx="0.5" fill="rgba(200,169,110,0.6)"/>
+              <rect x="29" y="25" width="6" height="6" rx="0.5" fill="var(--sand)"/>
+            </svg>
+            <span class="skill-name">Pandas</span>
+            <span class="skill-tag">Primary</span>
+          </div>
+          <p class="skill-desc">
+            The backbone of my Python data work. DataFrame manipulation, merges,
+            reshaping, and pipeline logic — applied daily on real retail and pricing datasets.
+          </p>
+          <div class="skill-bar">
+            <div class="skill-bar-fill" data-width="85" style="width:0%"></div>
+          </div>
+          <div class="skill-bar-label"><span>Proficiency</span><span>Advanced</span></div>
+          <div class="skill-chips">
+            <span class="chip">ETL Pipelines</span>
+            <span class="chip">Merges</span>
+            <span class="chip">GroupBy</span>
+            <span class="chip">Pivot Tables</span>
+            <span class="chip">Dtype Handling</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="divider reveal"></div>
+
+      <div class="secondary-title reveal">Also familiar with</div>
+
+      <div class="secondary-grid">
+        <div class="secondary-card reveal">
+          <div class="secondary-card-name">Excel</div>
+          <div class="secondary-card-desc">Advanced modeling</div>
+        </div>
+        <div class="secondary-card reveal reveal-delay-1">
+          <div class="secondary-card-name">Plotly / Dash</div>
+          <div class="secondary-card-desc">Interactive viz</div>
+        </div>
+        <div class="secondary-card reveal reveal-delay-2">
+          <div class="secondary-card-name">Git</div>
+          <div class="secondary-card-desc">Version control</div>
+        </div>
+        <div class="secondary-card reveal reveal-delay-3">
+          <div class="secondary-card-name">Notion</div>
+          <div class="secondary-card-desc">Workflow management</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Leonardo Escobedo</p>
+    <p>Data Analyst — Monterrey, MX</p>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    // animate bars on scroll
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const fill = e.target.querySelector('.skill-bar-fill');
+          if (fill) {
+            setTimeout(() => {
+              fill.style.width = fill.dataset.width + '%';
+            }, 200);
+          }
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.skill-card').forEach(c => observer.observe(c));
+  </script>
+</body>
+</html>

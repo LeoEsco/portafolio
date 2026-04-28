@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experience — Leonardo Escobedo</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .exp-section {
+      min-height: 100vh;
+      padding: calc(var(--nav-height) + 100px) 0 140px;
+      position: relative;
+    }
+
+    .exp-header {
+      margin-bottom: 80px;
+    }
+
+    .exp-header h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+    }
+
+    .exp-header h2 em {
+      font-style: italic;
+      color: var(--sand);
+    }
+
+    /* timeline */
+    .timeline {
+      position: relative;
+      padding-left: 48px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 12px;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--sand-dim) 0%, rgba(200,169,110,0.1) 100%);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 72px;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    /* dot */
+    .timeline-dot {
+      position: absolute;
+      left: -55px;
+      top: 6px;
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--sand-dim);
+      background: var(--obsidian);
+      transform: rotate(45deg);
+      transition: all var(--transition);
+    }
+
+    .timeline-item:hover .timeline-dot {
+      background: var(--sand);
+      border-color: var(--sand);
+    }
+
+    .timeline-item.current .timeline-dot {
+      background: var(--sand);
+      border-color: var(--sand);
+      box-shadow: 0 0 16px rgba(200, 169, 110, 0.4);
+    }
+
+    .timeline-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .timeline-date {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sand-dim);
+    }
+
+    .timeline-badge {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border: 1px solid rgba(200, 169, 110, 0.25);
+      color: var(--sand);
+    }
+
+    .timeline-badge.current {
+      background: rgba(200, 169, 110, 0.08);
+      border-color: var(--sand);
+    }
+
+    .timeline-content {
+      background: var(--surface);
+      border: 1px solid rgba(200, 169, 110, 0.08);
+      padding: 40px 44px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color var(--transition);
+    }
+
+    .timeline-item:hover .timeline-content {
+      border-color: rgba(200, 169, 110, 0.22);
+    }
+
+    .timeline-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--sand);
+      transition: height 0.5s ease;
+    }
+
+    .timeline-item:hover .timeline-content::before {
+      height: 100%;
+    }
+
+    .timeline-company {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sand);
+      margin-bottom: 8px;
+    }
+
+    .timeline-role {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+    }
+
+    .timeline-desc {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    .timeline-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .timeline-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      border: 1px solid rgba(200, 169, 110, 0.12);
+      padding: 4px 12px;
+      transition: all var(--transition);
+    }
+
+    .timeline-item:hover .timeline-tag {
+      border-color: rgba(200, 169, 110, 0.25);
+      color: var(--sand-dim);
+    }
+
+    /* education section */
+    .education-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      margin-top: 24px;
+    }
+
+    .edu-card {
+      background: var(--surface);
+      border: 1px solid rgba(200, 169, 110, 0.07);
+      padding: 36px 40px;
+      transition: all var(--transition);
+    }
+
+    .edu-card:hover {
+      border-color: rgba(200, 169, 110, 0.2);
+      background: var(--surface2);
+    }
+
+    .edu-school {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sand);
+      margin-bottom: 10px;
+    }
+
+    .edu-degree {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .edu-detail {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 768px) {
+      .timeline { padding-left: 24px; }
+      .timeline-dot { left: -31px; }
+      .timeline-content { padding: 28px 24px; }
+      .education-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor cursor-dot" style="position:fixed;z-index:9999;pointer-events:none;"></div>
+  <div class="cursor cursor-ring" style="position:fixed;z-index:9998;pointer-events:none;"></div>
+  <canvas id="sand-canvas"></canvas>
+
+  <nav>
+    <a href="index.html" class="nav-logo">LE</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="exp-section page">
+    <div class="grid-bg"></div>
+    <div class="container">
+
+      <div class="section-label reveal">003 — Work History</div>
+
+      <div class="exp-header">
+        <h2 class="reveal">
+          Experience built<br>
+          in <em>real environments,</em><br>
+          on real data.
+        </h2>
+      </div>
+
+      <!-- Timeline -->
+      <div class="timeline">
+
+        <!-- Current role -->
+        <div class="timeline-item current reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-meta">
+            <span class="timeline-date">2024 — Present</span>
+            <span class="timeline-badge current">Current</span>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-company">Grupo Alen — RGM Analytics</div>
+            <div class="timeline-role">Data Analytics Intern</div>
+            <p class="timeline-desc">
+              Building Python/pandas ETL pipelines processing large-scale retail pricing datasets
+              across multiple product categories and channels. Designing and delivering Power BI
+              dashboards used by the Revenue Growth Management team for pricing strategy decisions.
+              Work includes waterfall/bridge charts, interactive Plotly scenario analysis, and
+              automated data validation workflows.
+            </p>
+            <div class="timeline-tags">
+              <span class="timeline-tag">Python</span>
+              <span class="timeline-tag">Pandas</span>
+              <span class="timeline-tag">Power BI</span>
+              <span class="timeline-tag">Plotly</span>
+              <span class="timeline-tag">ETL</span>
+              <span class="timeline-tag">Pricing Analytics</span>
+              <span class="timeline-tag">Dash</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Placeholder 2 -->
+        <div class="timeline-item reveal reveal-delay-1">
+          <div class="timeline-dot"></div>
+          <div class="timeline-meta">
+            <span class="timeline-date">2023</span>
+            <span class="timeline-badge">Internship</span>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-company">Previous Organization</div>
+            <div class="timeline-role">Analytics / IT Support Role</div>
+            <p class="timeline-desc">
+              Supported data collection and reporting processes. Assisted with
+              spreadsheet automation and internal reporting, developing foundations
+              in structured data handling and business communication.
+            </p>
+            <div class="timeline-tags">
+              <span class="timeline-tag">Excel</span>
+              <span class="timeline-tag">SQL</span>
+              <span class="timeline-tag">Reporting</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Placeholder 3 -->
+        <div class="timeline-item reveal reveal-delay-2">
+          <div class="timeline-dot"></div>
+          <div class="timeline-meta">
+            <span class="timeline-date">2022</span>
+            <span class="timeline-badge">Academic</span>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-company">FACPYA UANL — Academic Project</div>
+            <div class="timeline-role">Data Analysis Project</div>
+            <p class="timeline-desc">
+              Led a team data analysis project applying SQL queries and Excel modeling
+              to a real-world business dataset. Delivered findings through structured
+              visualizations and executive summary presentation.
+            </p>
+            <div class="timeline-tags">
+              <span class="timeline-tag">SQL</span>
+              <span class="timeline-tag">Excel</span>
+              <span class="timeline-tag">Team Lead</span>
+              <span class="timeline-tag">Presentation</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="divider reveal"></div>
+
+      <!-- Education -->
+      <div class="section-label reveal">004 — Education</div>
+
+      <div class="education-grid">
+        <div class="edu-card reveal">
+          <div class="edu-school">UANL — FACPYA</div>
+          <div class="edu-degree">B.Sc. Information Technologies</div>
+          <div class="edu-detail">6th Semester · 2022 — Present · Monterrey, MX</div>
+        </div>
+        <div class="edu-card reveal reveal-delay-1">
+          <div class="edu-school">Self-directed</div>
+          <div class="edu-degree">Financial Modeling & Analytics</div>
+          <div class="edu-detail">Python · DAX · Excel · Ongoing</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Leonardo Escobedo</p>
+    <p>Data Analyst — Monterrey, MX</p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

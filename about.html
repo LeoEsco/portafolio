@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Leonardo Escobedo</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .about-section {
+      min-height: 100vh;
+      padding: calc(var(--nav-height) + 100px) 0 120px;
+      position: relative;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: start;
+      margin-bottom: 100px;
+    }
+
+    .about-left h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--text-primary);
+      margin-bottom: 36px;
+    }
+
+    .about-left h2 em {
+      font-style: italic;
+      color: var(--sand);
+    }
+
+    .about-left p {
+      margin-bottom: 20px;
+    }
+
+    .about-right {
+      padding-top: 12px;
+    }
+
+    /* decorative geo panel */
+    .geo-panel {
+      background: var(--surface);
+      border: 1px solid rgba(200, 169, 110, 0.12);
+      padding: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .geo-panel::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 160px;
+      height: 160px;
+      border: 1px solid rgba(200, 169, 110, 0.08);
+      transform: rotate(45deg);
+    }
+
+    .geo-panel::after {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      left: -40px;
+      width: 100px;
+      height: 100px;
+      border: 1px solid rgba(200, 169, 110, 0.06);
+      transform: rotate(45deg);
+    }
+
+    .panel-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--sand-dim);
+      margin-bottom: 32px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(200, 169, 110, 0.07);
+    }
+
+    .info-row:last-child { border-bottom: none; }
+
+    .info-key {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .info-val {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      color: var(--text-primary);
+      text-align: right;
+    }
+
+    /* values section */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 80px;
+    }
+
+    .value-card {
+      background: var(--surface);
+      border: 1px solid rgba(200, 169, 110, 0.07);
+      padding: 40px 32px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color var(--transition), background var(--transition);
+    }
+
+    .value-card:hover {
+      border-color: rgba(200, 169, 110, 0.25);
+      background: var(--surface2);
+    }
+
+    .value-card::before {
+      content: attr(data-num);
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+    }
+
+    .value-icon {
+      width: 32px;
+      height: 32px;
+      margin-bottom: 24px;
+      opacity: 0.7;
+    }
+
+    .value-card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      font-weight: 300;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+
+    .value-card p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    /* quote */
+    .quote-block {
+      border-left: 2px solid var(--sand-dim);
+      padding: 24px 0 24px 40px;
+      margin: 80px 0 0;
+    }
+
+    .quote-block blockquote {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .quote-block cite {
+      display: block;
+      margin-top: 16px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--sand-dim);
+      text-transform: uppercase;
+      font-style: normal;
+    }
+
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .values-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor cursor-dot" style="position:fixed;z-index:9999;pointer-events:none;"></div>
+  <div class="cursor cursor-ring" style="position:fixed;z-index:9998;pointer-events:none;"></div>
+  <canvas id="sand-canvas"></canvas>
+
+  <nav>
+    <a href="index.html" class="nav-logo">LE</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="about-section page">
+    <div class="grid-bg"></div>
+    <div class="container">
+
+      <div class="section-label reveal">001 — Profile</div>
+
+      <div class="about-grid">
+        <div class="about-left">
+          <h2 class="reveal">
+            Data-driven<br>
+            by <em>nature,</em><br>
+            strategic by<br>
+            <em>design.</em>
+          </h2>
+          <p class="reveal reveal-delay-1">
+            I am a 6th-semester Information Technologies student at UANL's FACPYA,
+            currently building production-grade analytics at Grupo Alen. My work sits
+            at the intersection of engineering and business intelligence — turning
+            messy, large-scale datasets into dashboards that inform real decisions.
+          </p>
+          <p class="reveal reveal-delay-2">
+            My technical foundation spans Python ETL pipelines, Power BI reporting,
+            and SQL data modeling. I approach every problem with the same question:
+            what signal matters, and how do I surface it clearly?
+          </p>
+          <p class="reveal reveal-delay-3">
+            Beyond the technical stack, I think analytically about strategy, influence,
+            and systems — because good analysis without communication is noise.
+          </p>
+        </div>
+
+        <div class="about-right reveal reveal-delay-2">
+          <div class="geo-panel">
+            <div class="panel-label">// identity.json</div>
+            <div class="info-row">
+              <span class="info-key">Name</span>
+              <span class="info-val">Leonardo Escobedo</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">Location</span>
+              <span class="info-val">Monterrey, MX</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">Education</span>
+              <span class="info-val">IT — FACPYA UANL</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">Current Role</span>
+              <span class="info-val">Analytics Intern, Grupo Alen</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">Focus</span>
+              <span class="info-val">ETL · Dashboards · BI</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">Status</span>
+              <span class="info-val" style="color: var(--sand);">Open to opportunities</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider reveal"></div>
+
+      <div class="section-label reveal">002 — Principles</div>
+
+      <div class="values-grid">
+        <div class="value-card reveal" data-num="01">
+          <svg class="value-icon" viewBox="0 0 32 32" fill="none">
+            <rect x="2" y="20" width="5" height="10" fill="rgba(200,169,110,0.6)"/>
+            <rect x="9" y="14" width="5" height="16" fill="rgba(200,169,110,0.8)"/>
+            <rect x="16" y="8" width="5" height="22" fill="var(--sand)"/>
+            <rect x="23" y="12" width="5" height="18" fill="rgba(200,169,110,0.7)"/>
+            <polyline points="4,20 11.5,13 18.5,7 25.5,11" stroke="var(--sand)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          </svg>
+          <h3>Precision over Volume</h3>
+          <p>One clear insight outweighs ten pages of charts. I filter ruthlessly and communicate what matters.</p>
+        </div>
+        <div class="value-card reveal reveal-delay-1" data-num="02">
+          <svg class="value-icon" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="13" stroke="rgba(200,169,110,0.5)" stroke-width="1"/>
+            <circle cx="16" cy="16" r="8" stroke="var(--sand)" stroke-width="1"/>
+            <circle cx="16" cy="16" r="3" fill="var(--sand)"/>
+            <line x1="16" y1="3" x2="16" y2="7" stroke="rgba(200,169,110,0.4)" stroke-width="1"/>
+            <line x1="16" y1="25" x2="16" y2="29" stroke="rgba(200,169,110,0.4)" stroke-width="1"/>
+            <line x1="3" y1="16" x2="7" y2="16" stroke="rgba(200,169,110,0.4)" stroke-width="1"/>
+            <line x1="25" y1="16" x2="29" y2="16" stroke="rgba(200,169,110,0.4)" stroke-width="1"/>
+          </svg>
+          <h3>Systems Thinking</h3>
+          <p>Data does not exist in isolation. I trace upstream causes, downstream effects, and the feedback loops between them.</p>
+        </div>
+        <div class="value-card reveal reveal-delay-2" data-num="03">
+          <svg class="value-icon" viewBox="0 0 32 32" fill="none">
+            <polygon points="16,3 29,10 29,22 16,29 3,22 3,10" stroke="var(--sand)" stroke-width="1" fill="rgba(200,169,110,0.05)"/>
+            <polygon points="16,9 23,13 23,19 16,23 9,19 9,13" stroke="rgba(200,169,110,0.5)" stroke-width="1" fill="none"/>
+            <circle cx="16" cy="16" r="2" fill="var(--sand)"/>
+          </svg>
+          <h3>Strategic Framing</h3>
+          <p>Technical output is only as valuable as the decision it enables. I tie every analysis to a business question.</p>
+        </div>
+      </div>
+
+      <div class="quote-block reveal">
+        <blockquote>
+          "The goal is to turn data into information,<br>
+          and information into insight."
+        </blockquote>
+        <cite>— Carly Fiorina</cite>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Leonardo Escobedo</p>
+    <p>Data Analyst — Monterrey, MX</p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
